@@ -3532,6 +3532,13 @@ gboolean qmi_message_nas_set_system_selection_preference_input_get_mnc_pds_digit
 G_DEPRECATED typedef int QmiDeprecatedNasDLBandwidth;
 #define QMI_NAS_DL_BANDWIDTH_INVALID (QmiDeprecatedNasDLBandwidth) QMI_NAS_DL_BANDWIDTH_UNKNOWN
 
+/* PDC_CONFIG_CHANGE message removed in 1.40; make compat symbols depend on
+ * whether the indication is enabled or not.
+ */
+#if defined HAVE_QMI_INDICATION_PDC_CONFIG_CHANGE
+#define HAVE_QMI_MESSAGE_PDC_CONFIG_CHANGE
+#endif
+
 #if defined HAVE_QMI_MESSAGE_PDC_CONFIG_CHANGE ||          \
     defined HAVE_QMI_MESSAGE_PDC_SET_SELECTED_CONFIG ||    \
     defined HAVE_QMI_MESSAGE_PDC_GET_CONFIG_INFO
@@ -3561,6 +3568,36 @@ typedef QmiDeprecatedConfigTypeAndId QmiConfigTypeAndId;
         * HAVE_QMI_MESSAGE_PDC_GET_CONFIG_INFO */
 
 #if defined HAVE_QMI_MESSAGE_PDC_CONFIG_CHANGE
+
+/**
+ * QmiMessagePdcConfigChangeInput:
+ *
+ * The #QmiMessagePdcConfigChangeInput structure contains private data and should only be accessed
+ * using the provided API.
+ *
+ * Since: 1.18
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+typedef struct _QmiMessagePdcConfigChangeInput QmiMessagePdcConfigChangeInput;
+G_DEPRECATED
+GType qmi_message_pdc_config_change_input_get_type (void) G_GNUC_CONST;
+#define QMI_TYPE_MESSAGE_PDC_CONFIG_CHANGE_INPUT (qmi_message_pdc_config_change_input_get_type ())
+
+/**
+ * QmiMessagePdcConfigChangeOutput:
+ *
+ * The #QmiMessagePdcConfigChangeOutput structure contains private data and should only be accessed
+ * using the provided API.
+ *
+ * Since: 1.18
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+typedef struct _QmiMessagePdcConfigChangeOutput QmiMessagePdcConfigChangeOutput;
+G_DEPRECATED
+GType qmi_message_pdc_config_change_output_get_type (void) G_GNUC_CONST;
+#define QMI_TYPE_MESSAGE_PDC_CONFIG_CHANGE_OUTPUT (qmi_message_pdc_config_change_output_get_type ())
 
 /**
  * qmi_message_pdc_config_change_input_get_type_with_id:
@@ -3617,6 +3654,223 @@ G_DEPRECATED_FOR (qmi_message_pdc_config_change_output_get_type_with_id_v2)
 gboolean qmi_message_pdc_config_change_output_get_type_with_id (
     QmiMessagePdcConfigChangeOutput *self,
     QmiDeprecatedConfigTypeAndId *value_type_with_id,
+    GError **error);
+
+/**
+ * qmi_message_pdc_config_change_input_get_type_with_id_v2:
+ * @self: a #QmiMessagePdcConfigChangeInput.
+ * @value_type_with_id_v2_config_type: (out)(optional): a placeholder for the output #QmiPdcConfigurationType, or %NULL if not required.
+ * @value_type_with_id_v2_id: (out)(optional)(element-type guint8)(transfer none): a placeholder for the output #GArray of #guint8 elements, or %NULL if not required. Do not free it, it is owned by @self.
+ * @error: Return location for error or %NULL.
+ *
+ * Get the 'Type With Id v2' field from @self.
+ *
+ * Returns: (skip): %TRUE if the field is found, %FALSE otherwise.
+ *
+ * Since: 1.32
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+gboolean qmi_message_pdc_config_change_input_get_type_with_id_v2 (
+    QmiMessagePdcConfigChangeInput *self,
+    QmiPdcConfigurationType *value_type_with_id_v2_config_type,
+    GArray **value_type_with_id_v2_id,
+    GError **error);
+
+
+/**
+ * qmi_message_pdc_config_change_input_set_type_with_id_v2:
+ * @self: a #QmiMessagePdcConfigChangeInput.
+ * @value_type_with_id_v2_config_type: a #QmiPdcConfigurationType.
+ * @value_type_with_id_v2_id: (in)(element-type guint8)(transfer none): a #GArray of #guint8 elements. A new reference to @value_type_with_id_v2_id will be taken, so the caller must make sure the array was created with the correct #GDestroyNotify as clear function for each element in the array.
+ * @error: Return location for error or %NULL.
+ *
+ * Set the 'Type With Id v2' field in the message.
+ *
+ * Returns: (skip): %TRUE if @value was successfully set, %FALSE otherwise.
+ *
+ * Since: 1.32
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+gboolean qmi_message_pdc_config_change_input_set_type_with_id_v2 (
+    QmiMessagePdcConfigChangeInput *self,
+    QmiPdcConfigurationType value_type_with_id_v2_config_type,
+    GArray *value_type_with_id_v2_id,
+    GError **error);
+
+
+/**
+ * qmi_message_pdc_config_change_input_ref:
+ * @self: a #QmiMessagePdcConfigChangeInput.
+ *
+ * Atomically increments the reference count of @self by one.
+ *
+ * Returns: the new reference to @self.
+ *
+ * Since: 1.18
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+QmiMessagePdcConfigChangeInput *qmi_message_pdc_config_change_input_ref (QmiMessagePdcConfigChangeInput *self);
+
+/**
+ * qmi_message_pdc_config_change_input_unref:
+ * @self: a #QmiMessagePdcConfigChangeInput.
+ *
+ * Atomically decrements the reference count of @self by one.
+ * If the reference count drops to 0, @self is completely disposed.
+ *
+ * Since: 1.18
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+void qmi_message_pdc_config_change_input_unref (QmiMessagePdcConfigChangeInput *self);
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (QmiMessagePdcConfigChangeInput, qmi_message_pdc_config_change_input_unref)
+
+/**
+ * qmi_message_pdc_config_change_input_new:
+ *
+ * Allocates a new #QmiMessagePdcConfigChangeInput.
+ *
+ * Returns: the newly created #QmiMessagePdcConfigChangeInput. The returned value should be freed with qmi_message_pdc_config_change_input_unref().
+ *
+ * Since: 1.18
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+QmiMessagePdcConfigChangeInput *qmi_message_pdc_config_change_input_new (void);
+
+/**
+ * qmi_message_pdc_config_change_output_get_type_with_id_v2:
+ * @self: a #QmiMessagePdcConfigChangeOutput.
+ * @value_type_with_id_v2_config_type: (out)(optional): a placeholder for the output #QmiPdcConfigurationType, or %NULL if not required.
+ * @value_type_with_id_v2_id: (out)(optional)(element-type guint8)(transfer none): a placeholder for the output #GArray of #guint8 elements, or %NULL if not required. Do not free it, it is owned by @self.
+ * @error: Return location for error or %NULL.
+ *
+ * Get the 'Type With Id v2' field from @self.
+ *
+ * Returns: (skip): %TRUE if the field is found, %FALSE otherwise.
+ *
+ * Since: 1.32
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+gboolean qmi_message_pdc_config_change_output_get_type_with_id_v2 (
+    QmiMessagePdcConfigChangeOutput *self,
+    QmiPdcConfigurationType *value_type_with_id_v2_config_type,
+    GArray **value_type_with_id_v2_id,
+    GError **error);
+
+
+/**
+ * qmi_message_pdc_config_change_output_get_result:
+ * @self: a QmiMessagePdcConfigChangeOutput.
+ * @error: Return location for error or %NULL.
+ *
+ * Get the result of the QMI operation.
+ *
+ * Returns: (skip): %TRUE if the QMI operation succeeded, %FALSE if @error is set.
+ *
+ * Since: 1.18
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+gboolean qmi_message_pdc_config_change_output_get_result (
+    QmiMessagePdcConfigChangeOutput *self,
+    GError **error);
+
+
+/**
+ * qmi_message_pdc_config_change_output_ref:
+ * @self: a #QmiMessagePdcConfigChangeOutput.
+ *
+ * Atomically increments the reference count of @self by one.
+ *
+ * Returns: the new reference to @self.
+ *
+ * Since: 1.18
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+QmiMessagePdcConfigChangeOutput *qmi_message_pdc_config_change_output_ref (QmiMessagePdcConfigChangeOutput *self);
+
+/**
+ * qmi_message_pdc_config_change_output_unref:
+ * @self: a #QmiMessagePdcConfigChangeOutput.
+ *
+ * Atomically decrements the reference count of @self by one.
+ * If the reference count drops to 0, @self is completely disposed.
+ *
+ * Since: 1.18
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+void qmi_message_pdc_config_change_output_unref (QmiMessagePdcConfigChangeOutput *self);
+G_DEFINE_AUTOPTR_CLEANUP_FUNC (QmiMessagePdcConfigChangeOutput, qmi_message_pdc_config_change_output_unref)
+
+/**
+ * qmi_message_pdc_config_change_response_parse:
+ * @message: a #QmiMessage.
+ * @error: return location for error or %NULL.
+ *
+ * Parses a #QmiMessage and builds a #QmiMessagePdcConfigChangeOutput out of it.
+ * The operation fails if the message is of the wrong type.
+ *
+ * Returns: a #QmiMessagePdcConfigChangeOutput, or %NULL if @error is set. The returned value should be freed with qmi_message_pdc_config_change_output_unref().
+ *
+ * Since: 1.34
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+QmiMessagePdcConfigChangeOutput *qmi_message_pdc_config_change_response_parse (
+    QmiMessage *message,
+    GError **error);
+
+/**
+ * qmi_client_pdc_config_change:
+ * @self: a #QmiClientPdc.
+ * @input: a #QmiMessagePdcConfigChangeInput.
+ * @timeout: maximum time to wait for the method to complete, in seconds.
+ * @cancellable: a #GCancellable or %NULL.
+ * @callback: a #GAsyncReadyCallback to call when the request is satisfied.
+ * @user_data: user data to pass to @callback.
+ *
+ * Asynchronously sends a Config Change request to the device.
+ *
+ * When the operation is finished, @callback will be invoked in the thread-default main loop of the thread you are calling this method from.
+ *
+ * You can then call qmi_client_pdc_config_change_finish() to get the result of the operation.
+ *
+ * Since: 1.18
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+void qmi_client_pdc_config_change (
+    QmiClientPdc *self,
+    QmiMessagePdcConfigChangeInput *input,
+    guint timeout,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data);
+
+/**
+ * qmi_client_pdc_config_change_finish:
+ * @self: a #QmiClientPdc.
+ * @res: the #GAsyncResult obtained from the #GAsyncReadyCallback passed to qmi_client_pdc_config_change().
+ * @error: Return location for error or %NULL.
+ *
+ * Finishes an async operation started with qmi_client_pdc_config_change().
+ *
+ * Returns: a #QmiMessagePdcConfigChangeOutput, or %NULL if @error is set. The returned value should be freed with qmi_message_pdc_config_change_output_unref().
+ *
+ * Since: 1.18
+ * Deprecated: 1.40: message removed.
+ */
+G_DEPRECATED
+QmiMessagePdcConfigChangeOutput *qmi_client_pdc_config_change_finish (
+    QmiClientPdc *self,
+    GAsyncResult *res,
     GError **error);
 
 #endif /* HAVE_QMI_MESSAGE_PDC_CONFIG_CHANGE */

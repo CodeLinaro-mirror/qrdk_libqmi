@@ -222,6 +222,8 @@ typedef enum { /*< since=1.0 >*/
  * @QMI_NAS_ACTIVE_BAND_NR5G_92: NR5G Band 92. Since 1.36
  * @QMI_NAS_ACTIVE_BAND_NR5G_93: NR5G Band 93. Since 1.36
  * @QMI_NAS_ACTIVE_BAND_NR5G_94: NR5G Band 94. Since 1.36
+ * @QMI_NAS_ACTIVE_BAND_NR5G_100: NR5G Band 100. Since 1.40.
+ * @QMI_NAS_ACTIVE_BAND_NR5G_101: NR5G Band 101. Since 1.40.
  *
  * Band classes.
  *
@@ -375,6 +377,8 @@ typedef enum { /*< since=1.0 >*/
     QMI_NAS_ACTIVE_BAND_NR5G_92 = 299,
     QMI_NAS_ACTIVE_BAND_NR5G_93 = 300,
     QMI_NAS_ACTIVE_BAND_NR5G_94 = 301,
+    QMI_NAS_ACTIVE_BAND_NR5G_100 = 315,
+    QMI_NAS_ACTIVE_BAND_NR5G_101 = 316,
 } QmiNasActiveBand;
 
 /**

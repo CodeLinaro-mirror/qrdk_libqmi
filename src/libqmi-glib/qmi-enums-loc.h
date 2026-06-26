@@ -38,6 +38,26 @@
  */
 
 /*****************************************************************************/
+/* Helper enums for the 'QMI LOC Register Events' request */
+
+/**
+ * QmiLocClientType:
+ * @QMI_LOC_CLIENT_TYPE_AFW: Application framework client (i.e. the Android framework).
+ * @QMI_LOC_CLIENT_TYPE_NFW: Non-framework client.
+ * @QMI_LOC_CLIENT_TYPE_PRIVILEGED: Privileged client.
+ *
+ * Type of client registering with the location engine. If not specified,
+ * the engine treats the client as a non-framework client.
+ *
+ * Since: 1.40
+ */
+typedef enum { /*< since=1.40 >*/
+    QMI_LOC_CLIENT_TYPE_AFW        = 1,
+    QMI_LOC_CLIENT_TYPE_NFW        = 2,
+    QMI_LOC_CLIENT_TYPE_PRIVILEGED = 3,
+} QmiLocClientType;
+
+/*****************************************************************************/
 /* Helper enums for the 'QMI LOC Start' indication */
 
 /**

@@ -51,6 +51,8 @@
  * @QMI_SERVICE_VOICE: Voice service.
  * @QMI_SERVICE_CAT2: Card Application Toolkit service (v2).
  * @QMI_SERVICE_UIM: User Identity Module service.
+ * @QMI_SERVICE_UIM_HTTP: User Identity Module HTTP service. Since 1.38.
+ * @QMI_SERVICE_UIM_RMT: User Identity Module Remote Transport service. Since 1.38.
  * @QMI_SERVICE_PBM: Phonebook Management service.
  * @QMI_SERVICE_QCHAT: QCHAT service. Since 1.8.
  * @QMI_SERVICE_RMTFS: Remote file system service.
@@ -144,6 +146,8 @@ typedef enum { /*< since=1.0 >*/
     QMI_SERVICE_DSD     = 0x2A,
     QMI_SERVICE_SSCTL   = 0x2B,
     QMI_SERVICE_DPM     = 0x2F,
+    QMI_SERVICE_UIM_RMT = 0x32,
+    QMI_SERVICE_UIM_HTTP = 0x47,
     QMI_SERVICE_CAT     = 0xE0,
     QMI_SERVICE_RMS     = 0xE1,
     QMI_SERVICE_OMA     = 0xE2,
@@ -178,6 +182,7 @@ typedef enum { /*< since=1.28 >*/   /* the get_string() helper and QmiEndian typ
  * @QMI_DATA_ENDPOINT_TYPE_PCIE: PCIe. Since 1.28.
  * @QMI_DATA_ENDPOINT_TYPE_EMBEDDED: Embedded. Since 1.28.
  * @QMI_DATA_ENDPOINT_TYPE_BAM_DMUX: BAM/DMUX. Since 1.30.
+ * @QMI_DATA_ENDPOINT_TYPE_ETHERNET: Ethernet. Since 1.40.
  * @QMI_DATA_ENDPOINT_TYPE_UNDEFINED: Undefined.
  *
  * Data Endpoint Type.
@@ -191,6 +196,7 @@ typedef enum { /*< since=1.18 >*/
     QMI_DATA_ENDPOINT_TYPE_PCIE      = 0x03,
     QMI_DATA_ENDPOINT_TYPE_EMBEDDED  = 0x04,
     QMI_DATA_ENDPOINT_TYPE_BAM_DMUX  = 0x05,
+    QMI_DATA_ENDPOINT_TYPE_ETHERNET  = 0x06,
     QMI_DATA_ENDPOINT_TYPE_UNDEFINED = 0xFF,
 } QmiDataEndpointType;
 

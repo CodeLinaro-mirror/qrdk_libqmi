@@ -374,6 +374,49 @@ qmicli_read_ssp_rat_options_from_string (const gchar              *str,
     return success && (mode_preference_set || acquisition_order_set);;
 }
 
+gboolean
+qmicli_read_nr5g_band_preference_from_string (const gchar *str,
+                                              guint64     *out_masks)
+{
+    g_auto(GStrv) band_strings = NULL;
+    guint         i;
+
+    memset (out_masks, 0, QMICLI_NR5G_BAND_PREFERENCE_N_MASKS * sizeof (guint64));
+
+    band_strings = g_strsplit (str, ",", -1);
+    if (!band_strings || !band_strings[0]) {
+        g_printerr ("error: no NR5G band given\n");
+        return FALSE;
+    }
+
+    for (i = 0; band_strings[i]; i++) {
+        const gchar *startptr;
+        gchar       *endptr;
+        gint64       band;
+
+        startptr = band_strings[i];
+        /* accept the same 'nX' spelling used when printing the preference */
+        if (startptr[0] == 'n' || startptr[0] == 'N')
+            startptr++;
+
+        band = g_ascii_strtoll (startptr, &endptr, 10);
+        if (startptr == endptr || *endptr != '\0') {
+            g_printerr ("error: couldn't parse '%s' as a NR5G band\n", band_strings[i]);
+            return FALSE;
+        }
+
+        if (band < 1 || band > (QMICLI_NR5G_BAND_PREFERENCE_N_MASKS * 64)) {
+            g_printerr ("error: NR5G band %" G_GINT64_FORMAT " out of range [1,%u]\n",
+                        band, QMICLI_NR5G_BAND_PREFERENCE_N_MASKS * 64);
+            return FALSE;
+        }
+
+        out_masks[(band - 1) / 64] |= ((guint64) 1) << ((band - 1) % 64);
+    }
+
+    return TRUE;
+}
+
 static gboolean
 parse_3gpp_mcc_mnc (const gchar *str,
                     guint16 *out_mcc,

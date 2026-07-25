@@ -106,6 +106,14 @@ gboolean qmicli_read_ssp_net_options_from_string             (const gchar *str,
                                                               QmiNasNetworkSelectionPreference *out_network_preference,
                                                               guint16 *out_network_mcc,
                                                               guint16 *out_network_mnc);
+
+/* Number of 64bit masks used to carry a NR5G band preference, as defined by
+ * the 'NR5G SA Band Preference' and 'NR5G NSA Band Preference' TLVs. Band N is
+ * bit (N-1)%64 of mask (N-1)/64. */
+#define QMICLI_NR5G_BAND_PREFERENCE_N_MASKS 8
+
+gboolean qmicli_read_nr5g_band_preference_from_string        (const gchar *str,
+                                                              guint64     *out_masks);
 gboolean qmicli_read_parse_3gpp_mcc_mnc                      (const gchar *str,
                                                               guint16     *out_mcc,
                                                               guint16     *out_mnc,

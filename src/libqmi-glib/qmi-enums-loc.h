@@ -464,28 +464,81 @@ typedef enum { /*< since=1.22 >*/
 
 /**
  * QmiLocNmeaType:
- * @QMI_LOC_NMEA_TYPE_GGA: Enable GGA traces.
- * @QMI_LOC_NMEA_TYPE_RMC: Enable RMC traces.
- * @QMI_LOC_NMEA_TYPE_GSV: Enable GSV traces.
- * @QMI_LOC_NMEA_TYPE_GSA: Enable GSA traces.
- * @QMI_LOC_NMEA_TYPE_VTG: Enable VTG traces.
+ * @QMI_LOC_NMEA_TYPE_GGA: Enable GPGGA traces.
+ * @QMI_LOC_NMEA_TYPE_RMC: Enable GPRMC traces.
+ * @QMI_LOC_NMEA_TYPE_GSV: Enable GPGSV traces.
+ * @QMI_LOC_NMEA_TYPE_GSA: Enable GPGSA traces.
+ * @QMI_LOC_NMEA_TYPE_VTG: Enable GPVTG traces.
  * @QMI_LOC_NMEA_TYPE_PQXFI: Enable PQXFI traces.
  * @QMI_LOC_NMEA_TYPE_PSTIS: Enable PSTIS traces.
- * @QMI_LOC_NMEA_TYPE_ALL: Enable all supported trace types.
+ * @QMI_LOC_NMEA_TYPE_GLGSV: Enable GLGSV traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GNGSA: Enable GNGSA traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GNGNS: Enable GNGNS traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GARMC: Enable GARMC traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GAGSV: Enable GAGSV traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GAGSA: Enable GAGSA traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GAVTG: Enable GAVTG traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GAGGA: Enable GAGGA traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_PQGSA: Enable PQGSA traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_PQGSV: Enable PQGSV traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_DEBUG: Enable debug traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GPDTM: Enable GPDTM traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GNGGA: Enable GNGGA traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GNRMC: Enable GMRMC traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GNVTG: Enable GNVTG traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GAGNS: Enable GAGNS traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GBGGA: Enable GBGGA traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GBGSA: Enable GBGSA traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GBGSV: Enable GBGSV traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GBRMC: Enable GBRMC traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GBVTG: Enable GBVTG traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GQGSV: Enable GQGSV traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GIGSV: Enable GIGSV traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GNDTM: Enable GNDTM traces. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_GSA_TAG_BLOCK: Enable GSA TAG block. It is placed before
+ *                                   standard messages to group them
+ *                                   (GSA, GSV) together reliably. Since 1.40.
+ * @QMI_LOC_NMEA_TYPE_ALL: Enable all supported trace types, except DEBUG and GSA TAG block.
  *
  * NMEA trace types that may be enabled in the GNSS engine.
  *
  * Since: 1.26
  */
 typedef enum { /*< since=1.26 >*/
-    QMI_LOC_NMEA_TYPE_GGA   = 1 << 0,
-    QMI_LOC_NMEA_TYPE_RMC   = 1 << 1,
-    QMI_LOC_NMEA_TYPE_GSV   = 1 << 2,
-    QMI_LOC_NMEA_TYPE_GSA   = 1 << 3,
-    QMI_LOC_NMEA_TYPE_VTG   = 1 << 4,
-    QMI_LOC_NMEA_TYPE_PQXFI = 1 << 5,
-    QMI_LOC_NMEA_TYPE_PSTIS = 1 << 6,
-    QMI_LOC_NMEA_TYPE_ALL   = 0x0000FFFF,
+    QMI_LOC_NMEA_TYPE_GGA           = 1 << 0,
+    QMI_LOC_NMEA_TYPE_RMC           = 1 << 1,
+    QMI_LOC_NMEA_TYPE_GSV           = 1 << 2,
+    QMI_LOC_NMEA_TYPE_GSA           = 1 << 3,
+    QMI_LOC_NMEA_TYPE_VTG           = 1 << 4,
+    QMI_LOC_NMEA_TYPE_PQXFI         = 1 << 5,
+    QMI_LOC_NMEA_TYPE_PSTIS         = 1 << 6,
+    QMI_LOC_NMEA_TYPE_GLGSV         = 1 << 7,
+    QMI_LOC_NMEA_TYPE_GNGSA         = 1 << 8,
+    QMI_LOC_NMEA_TYPE_GNGNS         = 1 << 9,
+    QMI_LOC_NMEA_TYPE_GARMC         = 1 << 10,
+    QMI_LOC_NMEA_TYPE_GAGSV         = 1 << 11,
+    QMI_LOC_NMEA_TYPE_GAGSA         = 1 << 12,
+    QMI_LOC_NMEA_TYPE_GAVTG         = 1 << 13,
+    QMI_LOC_NMEA_TYPE_GAGGA         = 1 << 14,
+    QMI_LOC_NMEA_TYPE_PQGSA         = 1 << 15,
+    QMI_LOC_NMEA_TYPE_PQGSV         = 1 << 16,
+    QMI_LOC_NMEA_TYPE_DEBUG         = 1 << 17,
+    QMI_LOC_NMEA_TYPE_GPDTM         = 1 << 18,
+    QMI_LOC_NMEA_TYPE_GNGGA         = 1 << 19,
+    QMI_LOC_NMEA_TYPE_GNRMC         = 1 << 20,
+    QMI_LOC_NMEA_TYPE_GNVTG         = 1 << 21,
+    QMI_LOC_NMEA_TYPE_GAGNS         = 1 << 22,
+    QMI_LOC_NMEA_TYPE_GBGGA         = 1 << 23,
+    QMI_LOC_NMEA_TYPE_GBGSA         = 1 << 24,
+    QMI_LOC_NMEA_TYPE_GBGSV         = 1 << 25,
+    QMI_LOC_NMEA_TYPE_GBRMC         = 1 << 26,
+    QMI_LOC_NMEA_TYPE_GBVTG         = 1 << 27,
+    QMI_LOC_NMEA_TYPE_GQGSV         = 1 << 28,
+    QMI_LOC_NMEA_TYPE_GIGSV         = 1 << 29,
+    QMI_LOC_NMEA_TYPE_GNDTM         = 1 << 30,
+    QMI_LOC_NMEA_TYPE_GSA_TAG_BLOCK = 1 << 31,
+
+    QMI_LOC_NMEA_TYPE_ALL   = 0x7FFDFFFF,
 } QmiLocNmeaType;
 
 /**

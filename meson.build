@@ -118,9 +118,28 @@ if get_option('buildtype').contains('debug')
   ])
 endif
 
-add_project_arguments(common_flags + cc_flags, language: 'c')
-
 no_deprecated_declarations_flags = cc.get_supported_arguments('-Wno-deprecated-declarations')
+
+# Look for existing -DQMI_DISABLE_DEPRECATED in CFLAGS
+pymodule = import('python3')
+python3 = pymodule.find_python()
+res = run_command(python3, '-c', 'import os; print(os.environ["CFLAGS"])')
+cflags_disable_deprecated = false
+if res.returncode() == 0 and res.stdout().contains('-DQMI_DISABLE_DEPRECATED')
+   cflags_disable_deprecated = true
+endif
+
+# Handle deprecation enable/disable
+if get_option('deprecated')
+    cc_flags += no_deprecated_declarations_flags
+else
+    if cflags_disable_deprecated == false
+        cc_flags += '-DQMI_DISABLE_DEPRECATED'
+    endif
+    cc_flags += cc.get_supported_arguments('-Wdeprecated-declarations')
+endif
+
+add_project_arguments(common_flags + cc_flags, language: 'c')
 
 glib_version = '2.56'
 

@@ -1,4 +1,3 @@
-
 /* -*- Mode: C; tab-width: 4; indent-tabs-mode: nil; c-basic-offset: 4 -*- */
 /*
  * This library is free software; you can redistribute it and/or
@@ -26,6 +25,7 @@
 #include "qmi-helpers.h"
 #include "qmi-enum-types.h"
 #include "qmi-flag-types.h"
+#include "qmi-error-types.h"
 
 #ifndef QMI_DISABLE_DEPRECATED
 
@@ -2170,6 +2170,184 @@ qmi_message_pdc_config_change_output_get_type_with_id (
         value_type_with_id->id = id;
     }
     return TRUE;
+}
+
+/*****************************************************************************/
+/* REQUEST/RESPONSE: Qmi Message PDC Config Change */
+
+
+/* --- Input -- */
+
+struct _QmiMessagePdcConfigChangeInput {
+    volatile gint ref_count;
+};
+
+gboolean
+qmi_message_pdc_config_change_input_get_type_with_id_v2 (
+    QmiMessagePdcConfigChangeInput *self,
+    QmiPdcConfigurationType *value_type_with_id_v2_config_type,
+    GArray **value_type_with_id_v2_id,
+    GError **error)
+{
+    g_set_error_literal (error, QMI_CORE_ERROR, QMI_CORE_ERROR_INVALID_MESSAGE, "invalid message");
+    return FALSE;
+}
+
+gboolean
+qmi_message_pdc_config_change_input_set_type_with_id_v2 (
+    QmiMessagePdcConfigChangeInput *self,
+    QmiPdcConfigurationType value_type_with_id_v2_config_type,
+    GArray *value_type_with_id_v2_id,
+    GError **error)
+{
+    g_set_error_literal (error, QMI_CORE_ERROR, QMI_CORE_ERROR_INVALID_MESSAGE, "invalid message");
+    return FALSE;
+}
+
+GType
+qmi_message_pdc_config_change_input_get_type (void)
+{
+    static gsize g_define_type_id_initialized = 0;
+
+    if (g_once_init_enter (&g_define_type_id_initialized)) {
+        GType g_define_type_id =
+            g_boxed_type_register_static (g_intern_static_string ("QmiMessagePdcConfigChangeInput"),
+                                          (GBoxedCopyFunc) qmi_message_pdc_config_change_input_ref,
+                                          (GBoxedFreeFunc) qmi_message_pdc_config_change_input_unref);
+
+        g_once_init_leave (&g_define_type_id_initialized, g_define_type_id);
+    }
+
+    return g_define_type_id_initialized;
+}
+
+QmiMessagePdcConfigChangeInput *
+qmi_message_pdc_config_change_input_ref (QmiMessagePdcConfigChangeInput *self)
+{
+    g_return_val_if_fail (self != NULL, NULL);
+
+    g_atomic_int_inc (&self->ref_count);
+    return self;
+}
+
+void
+qmi_message_pdc_config_change_input_unref (QmiMessagePdcConfigChangeInput *self)
+{
+    g_return_if_fail (self != NULL);
+
+    if (g_atomic_int_dec_and_test (&self->ref_count)) {
+        g_slice_free (QmiMessagePdcConfigChangeInput, self);
+    }
+}
+
+QmiMessagePdcConfigChangeInput *
+qmi_message_pdc_config_change_input_new (void)
+{
+    QmiMessagePdcConfigChangeInput *self;
+
+    self = g_slice_new0 (QmiMessagePdcConfigChangeInput);
+    self->ref_count = 1;
+    return self;
+}
+
+/* --- Output -- */
+
+struct _QmiMessagePdcConfigChangeOutput {
+    volatile gint ref_count;
+};
+
+#define QMI_MESSAGE_PDC_CONFIG_CHANGE_OUTPUT_TLV_TYPE_WITH_ID_V2 0x01
+#define QMI_MESSAGE_PDC_CONFIG_CHANGE_OUTPUT_TLV_RESULT 0x02
+
+gboolean
+qmi_message_pdc_config_change_output_get_type_with_id_v2 (
+    QmiMessagePdcConfigChangeOutput *self,
+    QmiPdcConfigurationType *value_type_with_id_v2_config_type,
+    GArray **value_type_with_id_v2_id,
+    GError **error)
+{
+    g_set_error_literal (error, QMI_CORE_ERROR, QMI_CORE_ERROR_INVALID_MESSAGE, "invalid message");
+    return FALSE;
+}
+
+gboolean
+qmi_message_pdc_config_change_output_get_result (
+    QmiMessagePdcConfigChangeOutput *self,
+    GError **error)
+{
+    g_set_error_literal (error, QMI_CORE_ERROR, QMI_CORE_ERROR_INVALID_MESSAGE, "invalid message");
+    return FALSE;
+}
+
+GType
+qmi_message_pdc_config_change_output_get_type (void)
+{
+    static gsize g_define_type_id_initialized = 0;
+
+    if (g_once_init_enter (&g_define_type_id_initialized)) {
+        GType g_define_type_id =
+            g_boxed_type_register_static (g_intern_static_string ("QmiMessagePdcConfigChangeOutput"),
+                                          (GBoxedCopyFunc) qmi_message_pdc_config_change_output_ref,
+                                          (GBoxedFreeFunc) qmi_message_pdc_config_change_output_unref);
+
+        g_once_init_leave (&g_define_type_id_initialized, g_define_type_id);
+    }
+
+    return g_define_type_id_initialized;
+}
+
+QmiMessagePdcConfigChangeOutput *
+qmi_message_pdc_config_change_output_ref (QmiMessagePdcConfigChangeOutput *self)
+{
+    g_return_val_if_fail (self != NULL, NULL);
+
+    g_atomic_int_inc (&self->ref_count);
+    return self;
+}
+
+void
+qmi_message_pdc_config_change_output_unref (QmiMessagePdcConfigChangeOutput *self)
+{
+    g_return_if_fail (self != NULL);
+
+    if (g_atomic_int_dec_and_test (&self->ref_count)) {
+        g_slice_free (QmiMessagePdcConfigChangeOutput, self);
+    }
+}
+
+QmiMessagePdcConfigChangeOutput *
+qmi_message_pdc_config_change_response_parse (
+    QmiMessage *message,
+    GError **error)
+{
+    g_set_error_literal (error, QMI_CORE_ERROR, QMI_CORE_ERROR_INVALID_MESSAGE, "invalid message");
+    return NULL;
+}
+
+QmiMessagePdcConfigChangeOutput *
+qmi_client_pdc_config_change_finish (
+    QmiClientPdc *self,
+    GAsyncResult *res,
+    GError **error)
+{
+    g_set_error_literal (error, QMI_CORE_ERROR, QMI_CORE_ERROR_INVALID_MESSAGE, "invalid message");
+    return NULL;
+}
+
+void
+qmi_client_pdc_config_change (
+    QmiClientPdc *self,
+    QmiMessagePdcConfigChangeInput *input,
+    guint timeout,
+    GCancellable *cancellable,
+    GAsyncReadyCallback callback,
+    gpointer user_data)
+{
+    GTask *task;
+
+    task = g_task_new (self, cancellable, callback, user_data);
+    g_task_return_new_error (task, QMI_CORE_ERROR, QMI_CORE_ERROR_INVALID_MESSAGE, "invalid message");
+    g_object_unref (task);
 }
 
 #endif /* HAVE_QMI_MESSAGE_PDC_CONFIG_CHANGE */

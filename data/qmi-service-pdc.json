@@ -84,16 +84,6 @@
 
   // *********************************************************************************
   {  "name"    : "Config Change",
-     "type"    : "Message",
-     "service" : "PDC",
-     "id"      : "0x21",
-     "since"   : "1.18",
-     "input"   : [ { "common-ref" : "Config Type And Id" } ],
-     "output"  : [ { "common-ref" : "Operation Result" },
-                   { "common-ref" : "Config Type And Id" } ] },
-
-  // *********************************************************************************
-  {  "name"    : "Config Change",
      "type"    : "Indication",
      "service" : "PDC",
      "id"      : "0x21",

@@ -188,7 +188,7 @@ build-no-deprecated:
     - tags
     - schedules
   script:
-    - CFLAGS="-DQMI_DISABLE_DEPRECATED" meson setup build --prefix=/usr -Dwerror=true -Dgtk_doc=false -Dintrospection=false -Dmbim_qmux=false -Dqrtr=false
+    - meson setup build --prefix=/usr -Dwerror=true -Dgtk_doc=false -Dintrospection=false -Dmbim_qmux=false -Dqrtr=false -Ddeprecated=false
     - ninja -C build
     - ninja -C build install
 

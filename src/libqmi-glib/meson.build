@@ -75,7 +75,7 @@ libqmi_glib_compat = static_library(
   sources: 'qmi-compat.c',
   include_directories: top_inc,
   dependencies: generated_dep,
-  c_args: common_c_flags + no_deprecated_declarations_flags,
+  c_args: common_c_flags + no_deprecated_declarations_flags + '-UQMI_DISABLE_DEPRECATED',
 )
 
 libname = 'qmi-glib'

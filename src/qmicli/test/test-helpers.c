@@ -402,6 +402,56 @@ test_parse_key_value_string_mixed_quotes (void)
 
 /******************************************************************************/
 
+static void
+test_helpers_nr5g_band_preference_single (void)
+{
+    guint64 masks[QMICLI_NR5G_BAND_PREFERENCE_N_MASKS];
+    guint   i;
+
+    g_assert (qmicli_read_nr5g_band_preference_from_string ("41", masks));
+    g_assert_cmpuint (masks[0], ==, ((guint64) 1) << 40);
+    for (i = 1; i < G_N_ELEMENTS (masks); i++)
+        g_assert_cmpuint (masks[i], ==, 0);
+}
+
+static void
+test_helpers_nr5g_band_preference_list (void)
+{
+    guint64 masks[QMICLI_NR5G_BAND_PREFERENCE_N_MASKS];
+
+    /* the 'nX' spelling is the one used when printing the preference.
+     * n41 lives in mask 0; n77 and n78 live in mask 1 */
+    g_assert (qmicli_read_nr5g_band_preference_from_string ("n41,n77,n78", masks));
+    g_assert_cmpuint (masks[0], ==, ((guint64) 1) << 40);
+    g_assert_cmpuint (masks[1], ==, (((guint64) 1) << 12) | (((guint64) 1) << 13));
+}
+
+static void
+test_helpers_nr5g_band_preference_mask_bounds (void)
+{
+    guint64 masks[QMICLI_NR5G_BAND_PREFERENCE_N_MASKS];
+
+    /* band 64 is the last bit of mask 0, band 65 the first bit of mask 1, and
+     * band 512 the last bit of the last mask */
+    g_assert (qmicli_read_nr5g_band_preference_from_string ("64,65,512", masks));
+    g_assert_cmpuint (masks[0], ==, ((guint64) 1) << 63);
+    g_assert_cmpuint (masks[1], ==, ((guint64) 1) << 0);
+    g_assert_cmpuint (masks[7], ==, ((guint64) 1) << 63);
+}
+
+static void
+test_helpers_nr5g_band_preference_invalid (void)
+{
+    guint64 masks[QMICLI_NR5G_BAND_PREFERENCE_N_MASKS];
+
+    g_assert (!qmicli_read_nr5g_band_preference_from_string ("0", masks));
+    g_assert (!qmicli_read_nr5g_band_preference_from_string ("513", masks));
+    g_assert (!qmicli_read_nr5g_band_preference_from_string ("n41x", masks));
+    g_assert (!qmicli_read_nr5g_band_preference_from_string ("lte", masks));
+}
+
+/******************************************************************************/
+
 int main (int argc, char **argv)
 {
     g_test_init (&argc, &argv, NULL);
@@ -428,6 +478,11 @@ int main (int argc, char **argv)
 
     g_test_add_func ("/qmicli/helpers/supported-message-list",      test_helpers_supported_messages_list);
     g_test_add_func ("/qmicli/helpers/supported-message-list/none", test_helpers_supported_messages_list_none);
+
+    g_test_add_func ("/qmicli/helpers/nr5g-band-preference/single",       test_helpers_nr5g_band_preference_single);
+    g_test_add_func ("/qmicli/helpers/nr5g-band-preference/list",         test_helpers_nr5g_band_preference_list);
+    g_test_add_func ("/qmicli/helpers/nr5g-band-preference/mask-bounds",  test_helpers_nr5g_band_preference_mask_bounds);
+    g_test_add_func ("/qmicli/helpers/nr5g-band-preference/invalid",      test_helpers_nr5g_band_preference_invalid);
 
     g_test_add_func ("/qmicli/helpers/key-value/no-quotes",     test_parse_key_value_string_no_quotes);
     g_test_add_func ("/qmicli/helpers/key-value/single-quotes", test_parse_key_value_string_single_quotes);

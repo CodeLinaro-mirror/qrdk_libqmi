@@ -62,6 +62,8 @@ static gboolean get_preferred_networks_flag;
 static gchar *set_preferred_networks_str;
 static gboolean get_system_selection_preference_flag;
 static gchar *set_system_selection_preference_str;
+static gchar *set_nr5g_sa_band_preference_str;
+static gchar *set_nr5g_nsa_band_preference_str;
 static gchar *get_plmn_name_str;
 #if defined HAVE_QMI_MESSAGE_NAS_NETWORK_SCAN
 static gchar *network_scan_str;
@@ -176,7 +178,15 @@ static GOptionEntry entries[] = {
 #if defined HAVE_QMI_MESSAGE_NAS_SET_SYSTEM_SELECTION_PREFERENCE
     { "nas-set-system-selection-preference", 0, 0, G_OPTION_ARG_STRING, &set_system_selection_preference_str,
       "Set system selection preference",
-      "[cdma-1x|cdma-1xevdo|gsm|umts|lte|td-scdma][,[automatic|manual=MCCMNC]]"
+      "[cdma-1x|cdma-1xevdo|gsm|umts|lte|td-scdma|5gnr][,[automatic|manual=MCCMNC]]"
+    },
+    { "nas-set-nr5g-sa-band-preference", 0, 0, G_OPTION_ARG_STRING, &set_nr5g_sa_band_preference_str,
+      "Set NR5G SA band preference",
+      "[band1,band2,...]"
+    },
+    { "nas-set-nr5g-nsa-band-preference", 0, 0, G_OPTION_ARG_STRING, &set_nr5g_nsa_band_preference_str,
+      "Set NR5G NSA band preference",
+      "[band1,band2,...]"
     },
 #endif
 #if defined HAVE_QMI_MESSAGE_NAS_NETWORK_SCAN
@@ -305,6 +315,8 @@ qmicli_nas_options_enabled (void)
                  !!set_preferred_networks_str +
                  get_system_selection_preference_flag +
                  !!set_system_selection_preference_str +
+                 !!set_nr5g_sa_band_preference_str +
+                 !!set_nr5g_nsa_band_preference_str +
                  !!get_plmn_name_str +
                  network_scan_flag +
                  incremental_network_scan_flag +
@@ -3071,6 +3083,50 @@ out:
     return input;
 }
 
+static QmiMessageNasSetSystemSelectionPreferenceInput *
+set_nr5g_band_preference_input_create (const gchar *str,
+                                       gboolean     standalone)
+{
+    QmiMessageNasSetSystemSelectionPreferenceInput *input;
+    GError                                         *error = NULL;
+    guint64                                         masks[QMICLI_NR5G_BAND_PREFERENCE_N_MASKS];
+
+    if (!qmicli_read_nr5g_band_preference_from_string (str, masks))
+        return NULL;
+
+    /* from now on, if an error happens, the GError must be set */
+    input = qmi_message_nas_set_system_selection_preference_input_new ();
+
+    if (!qmi_message_nas_set_system_selection_preference_input_set_change_duration (input, QMI_NAS_CHANGE_DURATION_PERMANENT, &error))
+        goto out;
+
+    if (standalone) {
+        if (!qmi_message_nas_set_system_selection_preference_input_set_nr5g_sa_band_preference (
+                input,
+                masks[0], masks[1], masks[2], masks[3],
+                masks[4], masks[5], masks[6], masks[7],
+                &error))
+            goto out;
+    } else {
+        if (!qmi_message_nas_set_system_selection_preference_input_set_nr5g_nsa_band_preference (
+                input,
+                masks[0], masks[1], masks[2], masks[3],
+                masks[4], masks[5], masks[6], masks[7],
+                &error))
+            goto out;
+    }
+
+out:
+    if (error) {
+        g_printerr ("error: couldn't create input data bundle: '%s'\n", error->message);
+        g_error_free (error);
+        qmi_message_nas_set_system_selection_preference_input_unref (input);
+        return NULL;
+    }
+
+    return input;
+}
+
 static void
 set_system_selection_preference_ready (QmiClientNas *client,
                                        GAsyncResult *res)
@@ -5018,6 +5074,32 @@ qmicli_nas_run (QmiDevice *device,
         g_debug ("Asynchronously setting system selection preference...");
 
         input = set_system_selection_preference_input_create (set_system_selection_preference_str);
+        if (!input) {
+            operation_shutdown (FALSE);
+            return;
+        }
+
+        qmi_client_nas_set_system_selection_preference (ctx->client,
+                                                        input,
+                                                        10,
+                                                        ctx->cancellable,
+                                                        (GAsyncReadyCallback)set_system_selection_preference_ready,
+                                                        NULL);
+        qmi_message_nas_set_system_selection_preference_input_unref (input);
+        return;
+    }
+
+    if (set_nr5g_sa_band_preference_str || set_nr5g_nsa_band_preference_str) {
+        QmiMessageNasSetSystemSelectionPreferenceInput *input;
+        gboolean                                        standalone;
+
+        standalone = !!set_nr5g_sa_band_preference_str;
+        g_debug ("Asynchronously setting NR5G %s band preference...", standalone ? "SA" : "NSA");
+
+        input = set_nr5g_band_preference_input_create (standalone ?
+                                                       set_nr5g_sa_band_preference_str :
+                                                       set_nr5g_nsa_band_preference_str,
+                                                       standalone);
         if (!input) {
             operation_shutdown (FALSE);
             return;
